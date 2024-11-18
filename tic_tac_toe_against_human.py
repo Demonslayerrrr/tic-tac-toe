@@ -131,6 +131,13 @@ class TicTacToe:
                 print("Invalid input. Enter in the format `row,col`.")
 
     def run(self):
+        who_starts = random()
+
+        if who_starts < 0.5:
+            turn = "X"
+        else:
+            turn = "O"
+
         winner = None
 
         while winner is None:
@@ -138,18 +145,13 @@ class TicTacToe:
             for row in self.board:
                 print(" ".join(row))
 
-            who_starts = random()
-
-            if who_starts<0.5:
-                turn = "X" if sum(row.count("X") for row in self.board) <= sum(row.count("O") for row in self.board) else "O"
-            else:
-                turn = "O" if sum(row.count("O") for row in self.board) <= sum(row.count("X") for row in self.board) else "X"
-
             if turn == "X":  
                 print("\nAgent's Turn")
                 self.agent_move()
-            else:  
+                turn = "O"  
+            else: 
                 self.human_move()
+                turn = "X"  
 
             winner = self.check_winner(self.board)
 
@@ -157,10 +159,11 @@ class TicTacToe:
         for row in self.board:
             print(row)
 
-        if winner in ["X","O"]:
+        if winner in ["X", "O"]:
             print(f"{winner} wins")
         else:
             print("draw")
+
 
         self.update_memory(winner) 
         self.save_memory() 
