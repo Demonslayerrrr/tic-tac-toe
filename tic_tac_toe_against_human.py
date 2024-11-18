@@ -1,6 +1,6 @@
 import json
 from copy import deepcopy
-from random import choice,random
+from random import choice, random
 
 class TicTacToe:
     def __init__(self):
@@ -44,6 +44,7 @@ class TicTacToe:
         return valid_moves
 
     def check_winner(self, board):
+        # Check rows, columns, and diagonals
         for row in board:
             if row == ["X", "X", "X"]:
                 return "X"
@@ -94,6 +95,14 @@ class TicTacToe:
         move_scores = {move: 0 for move in valid_moves}
         simulations_per_move = 100
 
+
+        for move in valid_moves:
+            simulated_board = deepcopy(self.board)
+            simulated_board[move[0]][move[1]] = "X"
+            if self.check_winner(simulated_board) == "X":
+                move_scores[move] += 10  
+
+
         for move in valid_moves:
             for _ in range(simulations_per_move):
                 simulated_board = deepcopy(self.board)
@@ -102,12 +111,12 @@ class TicTacToe:
                 if result == "X":
                     move_scores[move] += 1
                 elif result == "_":
-                    move_scores[move] += 0.5
+                    move_scores[move] += 0.5  
 
-            
+
             if move in self.learned_memory:
-                move_scores[move] += 2 * self.learned_memory[move]["wins"]  
-                move_scores[move] -= 2 * self.learned_memory[move]["losses"]  
+                move_scores[move] += 2 * self.learned_memory[move]["wins"]
+                move_scores[move] -= 2 * self.learned_memory[move]["losses"]
 
         best_move = max(move_scores, key=move_scores.get)
         self.board[best_move[0]][best_move[1]] = "X"
@@ -171,5 +180,4 @@ class TicTacToe:
 
 
 a = TicTacToe()
-
 a.run()
