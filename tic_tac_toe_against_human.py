@@ -178,6 +178,6 @@ class TicTacToe:
         self.save_memory() 
         print("\nGame memory updated and saved!")
 
-
-a = TicTacToe()
-a.run()
+if __name__ == "__main__":
+    a = TicTacToe()
+    a.run()
